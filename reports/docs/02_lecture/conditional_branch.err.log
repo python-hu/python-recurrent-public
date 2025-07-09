@@ -1,0 +1,40 @@
+Traceback (most recent call last):
+  File "/Users/furui/envs/zeropro-book2025/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/furui/envs/zeropro-book2025/lib/python3.11/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/Users/furui/envs/zeropro-book2025/lib/python3.11/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/furui/envs/zeropro-book2025/lib/python3.11/site-packages/jupyter_core/utils/__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/furui/.pyenv/versions/3.11.3/lib/python3.11/asyncio/base_events.py", line 653, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/furui/envs/zeropro-book2025/lib/python3.11/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "/Users/furui/envs/zeropro-book2025/lib/python3.11/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/Users/furui/envs/zeropro-book2025/lib/python3.11/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+a = 3
+b = 3
+if a == b:
+print(f'{a}と{b}は等しいです．') # if文の後にインデントを入れ忘れている
+------------------
+
+
+  [36mCell[39m[36m [39m[32mIn[25][39m[32m, line 4[39m
+[31m    [39m[31mprint(f'{a}と{b}は等しいです．') # if文の後にインデントを入れ忘れている[39m
+    ^
+[31mIndentationError[39m[31m:[39m expected an indented block after 'if' statement on line 3
+
+
