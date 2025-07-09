@@ -1,0 +1,14 @@
+.DS_Store
+_build
+.ipynb_checkpoints
+
+# 05
+docs/05_lecture/data
+docs/05_exercise/data
+docs/05_ans/data
+
+# 06
+docs/06_lecture/data.npy
+docs/06_lecture/target.npy
+docs/06_exercise/data
+docs/06_ans/data

@@ -1,0 +1,27 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+parts:
+  - caption: 講義の教材
+    chapters:
+    - file: docs/01_intro/introduction_and_setup
+    - file: docs/01_lecture/variables_and_data_types
+    - file: docs/01_exercise/exercise_variables_and_data_types
+    - file: docs/02_lecture/conditional_branch
+    - file: docs/02_exercise/exercise_conditional_branch
+    - file: docs/03_lecture/loops
+    - file: docs/03_exercise/exercise_loops
+    - file: docs/04_lecture/functions_and_scope
+    - file: docs/04_exercise/exercise_functions_and_scope
+    - file: docs/05_lecture/introduction_to_data_analysis
+    - file: docs/05_exercise/exercise_introduction_to_data_analysis
+    - file: docs/06_lecture/introduction_to_machine_learning
+    - file: docs/06_exercise/exercise_introduction_to_machine_learning
+  - caption: 補足情報
+    chapters:
+    - file: docs/advanced_materials.md
+    - file: docs/00_check_environment
+    - file: docs/anaconda_python/anaconda_python.md
+    - file: docs/references.md
