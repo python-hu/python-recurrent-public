@@ -32,9 +32,9 @@ print(f'{a}と{b}は等しいです．') # if文の後にインデントを入�
 ------------------
 
 
-  [36mCell[39m[36m [39m[32mIn[25][39m[32m, line 4[39m
-[31m    [39m[31mprint(f'{a}と{b}は等しいです．') # if文の後にインデントを入れ忘れている[39m
-    ^
-[31mIndentationError[39m[31m:[39m expected an indented block after 'if' statement on line 3
+[0;36m  Cell [0;32mIn[25], line 4[0;36m[0m
+[0;31m    print(f'{a}と{b}は等しいです．') # if文の後にインデントを入れ忘れている[0m
+[0m    ^[0m
+[0;31mIndentationError[0m[0;31m:[0m expected an indented block
 
 
