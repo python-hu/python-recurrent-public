@@ -32,7 +32,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -721,16 +721,6 @@ Pandasは，データ解析を容易に行うための機能を提供してお�
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">8</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;pandas&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <p>なお，簡単のため <code class="docutils literal notranslate"><span class="pre">as</span></code> を用いて <code class="docutils literal notranslate"><span class="pre">pd</span></code> という短縮名でインポートした．</p>
 <section id="series-dataframe">
@@ -756,52 +746,201 @@ Seriesは1次元（列形式）のデータ，DataFrameは2次元（行列形式
 </section>
 <section id="id7">
 <h3>データの読み込み<a class="headerlink" href="#id7" title="Link to this heading">#</a></h3>
-<p>今回は，<a class="reference external" href="http://kogolab.chillout.jp/elearn/icecream/index.html">アイスクリーム屋さんで学ぶ楽しい統計学</a> というサイトで公開されている架空のデータを用いてデータ分析に取り組んでいく．</p>
+<p>今回は，あるコンビニエンスストアにおけるコーヒー販売データを用いてデータ分析に取り組んでいく．
+このデータは教育用に作成した架空のデータである．</p>
 <p>まず，当該データをダウンロードしよう．
-以下のセルを実行すると，<code class="docutils literal notranslate"><span class="pre">data</span></code> フォルダの中に <code class="docutils literal notranslate"><span class="pre">ice_cream.csv</span></code> というファイルがダウンロードされる．</p>
+以下のセルを実行すると，<code class="docutils literal notranslate"><span class="pre">data</span></code> フォルダの中に <code class="docutils literal notranslate"><span class="pre">coffee_sales.csv</span></code> というファイルがダウンロードされる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>mkdir<span class="w"> </span>-p<span class="w"> </span>data
-<span class="o">!</span>wget<span class="w"> </span>-P<span class="w"> </span>data<span class="w"> </span>https://raw.githubusercontent.com/ground-zero-programming/zero-pro-data/refs/heads/main/data/data_analysis/lecture/ice_cream.csv<span class="w"> </span>-O<span class="w"> </span>data/ice_cream.csv
+<span class="o">!</span>wget<span class="w"> </span>-P<span class="w"> </span>data<span class="w"> </span>https://raw.githubusercontent.com/python-hu/resource/refs/heads/main/zero_to_programming/coffee_sales.csv<span class="w"> </span>-O<span class="w"> </span>data/coffee_sales.csv
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--2025-07-11 12:50:14--  https://raw.githubusercontent.com/python-hu/resource/refs/heads/main/zero_to_programming/coffee_sales.csv
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 2606:50c0:8002::154, 2606:50c0:8000::154, 2606:50c0:8003::154, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|2606:50c0:8002::154|:443... connected.
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HTTP request sent, awaiting response... 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>200 OK
+Length: 273 [text/plain]
+Saving to: ‘data/coffee_sales.csv’
+
+
+coffee_sales.csv      0%[                    ]       0  --.-KB/s               
+coffee_sales.csv    100%[===================&gt;]     273  --.-KB/s    in 0s      
+
+2025-07-11 12:50:14 (32.5 MB/s) - ‘data/coffee_sales.csv’ saved [273/273]
 </pre></div>
 </div>
 </div>
 </div>
 <p>本講義の範囲内では上記のコードが何をやっているかを意識する必要はないが，簡単に説明しよう．
 <code class="docutils literal notranslate"><span class="pre">!mkdir</span> <span class="pre">data</span></code>でGoogle Colab内に<code class="docutils literal notranslate"><span class="pre">data</span></code>という名前がついたフォルダを作成し，以降の<code class="docutils literal notranslate"><span class="pre">!wget</span> <span class="pre">-P</span> <span class="pre">data</span> <span class="pre">{URL}</span></code>で<code class="docutils literal notranslate"><span class="pre">URL</span></code>にあるファイルを先ほど作成した<code class="docutils literal notranslate"><span class="pre">data</span></code>フォルダにダウンロードするという操作をしている．</p>
-<p>さて， <code class="docutils literal notranslate"><span class="pre">ice_cream.csv</span></code>には，あるアイスクリームチェーン店における8月の客数データ（2週間 = 14日分）が格納されている．
+<p>さて， <code class="docutils literal notranslate"><span class="pre">coffee_sales.csv</span></code>には，あるコンビニエンスストアにおける8月のコーヒー販売データ（2週間 = 14日分）が格納されている．
 このファイルは <strong>CSVファイル</strong> と呼ばれ，以下のように各データの間がコンマ <code class="docutils literal notranslate"><span class="pre">,</span></code> で区切られている．</p>
-<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>日付, 最高気温, 客数
-1, 29, 312
-2, 30, 348
-3, 29, 284
+<div class="highlight-csv notranslate"><div class="highlight"><pre><span></span>日付, 最高気温, アイスコーヒー, ホットコーヒー
+1, 29.2, 312, 168
+2, 30.1, 348, 152
+3, 28.9, 284, 196
 ...
 </pre></div>
 </div>
 <p>1行目は列のタイトル（ヘッダとも呼ばれる）となっており，2行目から各日付におけるデータが格納されている．
-また，暑い日にはアイスクリームを食べたいと思う人が増えるかもしれない．
-そこで，このファイルには各日付における客数以外に，その日の最高気温も含まれている．</p>
+暑い日にはアイスコーヒー，涼しい日にはホットコーヒーの需要が変わるかもしれない．
+そこで，このファイルには各日付におけるコーヒー販売数以外に，その日の最高気温も含まれている．</p>
 <p>CSVファイルを読み込むには，Pandasに含まれる <code class="docutils literal notranslate"><span class="pre">read_csv</span></code> という関数が便利である．</p>
 <p><code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 関数は，目的とするファイルの保存場所までの経路（これを <strong>パス</strong> といいます）を文字列として引数に渡すことで，そのファイルを開くことができる．
-今回は <code class="docutils literal notranslate"><span class="pre">data</span></code> というフォルダに入っている <code class="docutils literal notranslate"><span class="pre">ice_cream.csv</span></code> を開きたいので，<code class="docutils literal notranslate"><span class="pre">'data/ice_cream.csv'</span></code> という文字列を渡せばOK．
+今回は <code class="docutils literal notranslate"><span class="pre">data</span></code> というフォルダに入っている <code class="docutils literal notranslate"><span class="pre">coffee_sales.csv</span></code> を開きたいので，<code class="docutils literal notranslate"><span class="pre">'data/coffee_sales.csv'</span></code> という文字列を渡せばOK．
 ここで，スラッシュ <code class="docutils literal notranslate"><span class="pre">/</span></code> はパスを記述する際の区切り文字で， <code class="docutils literal notranslate"><span class="pre">A/B</span></code> と書くとフォルダ <code class="docutils literal notranslate"><span class="pre">A</span></code> の中に <code class="docutils literal notranslate"><span class="pre">B</span></code> があることを意味する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># ファイルを `df` という変数に読み込む</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/ice_cream.csv&#39;</span><span class="p">)</span> 
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/coffee_sales.csv&#39;</span><span class="p">)</span> 
 
 <span class="c1"># dfの中身を表示</span>
 <span class="n">df</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>日付</th>
+      <th>最高気温</th>
+      <th>アイスコーヒー</th>
+      <th>ホットコーヒー</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>29.2</td>
+      <td>312</td>
+      <td>168</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>30.1</td>
+      <td>348</td>
+      <td>152</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>28.9</td>
+      <td>284</td>
+      <td>196</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>31.5</td>
+      <td>385</td>
+      <td>115</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>32.3</td>
+      <td>412</td>
+      <td>88</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>6</td>
+      <td>33.1</td>
+      <td>435</td>
+      <td>65</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>7</td>
+      <td>31.8</td>
+      <td>398</td>
+      <td>102</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>8</td>
+      <td>28.5</td>
+      <td>265</td>
+      <td>205</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>9</td>
+      <td>30.8</td>
+      <td>365</td>
+      <td>135</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>10</td>
+      <td>32.7</td>
+      <td>428</td>
+      <td>72</td>
+    </tr>
+    <tr>
+      <th>10</th>
+      <td>11</td>
+      <td>33.5</td>
+      <td>445</td>
+      <td>55</td>
+    </tr>
+    <tr>
+      <th>11</th>
+      <td>12</td>
+      <td>34.2</td>
+      <td>468</td>
+      <td>32</td>
+    </tr>
+    <tr>
+      <th>12</th>
+      <td>13</td>
+      <td>29.5</td>
+      <td>325</td>
+      <td>155</td>
+    </tr>
+    <tr>
+      <th>13</th>
+      <td>14</td>
+      <td>30.2</td>
+      <td>352</td>
+      <td>148</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
-<p>上の出力の結果から，「日付」，「最高気温」，「客数」の3つの列で構成されるデータが読み込まれていることがわかる．
+<p>上の出力の結果から，「日付」，「最高気温」，「アイスコーヒー」，「ホットコーヒー」の4つの列で構成されるデータが読み込まれていることがわかる．
 なお，一番左の列はPandasによって付けられた行のインデックスである．このインデックスは0からスタートしていることに気をつけよう．</p>
 <blockquote>
 <div><p><strong>💡 列名（ヘッダ）の認識</strong></p>
 <p><code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 関数では，デフォルトでCSVファイル中の1行目の情報を列名（ヘッダ）として解釈してくれる．
-先ほど読み込んだ <code class="docutils literal notranslate"><span class="pre">ice_cream.csv</span></code> はまさに1行目にヘッダが入っていたため上手くいったが，場合によってはヘッダのないCSVファイルを読み込むこともあるだろう．</p>
+先ほど読み込んだ <code class="docutils literal notranslate"><span class="pre">coffee_sales.csv</span></code> はまさに1行目にヘッダが入っていたため上手くいったが，場合によってはヘッダのないCSVファイルを読み込むこともあるだろう．</p>
 <p>そのような場合は，<code class="docutils literal notranslate"><span class="pre">read_csv</span></code> 関数の引数として <code class="docutils literal notranslate"><span class="pre">header=None</span></code> とすればよい．</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;data/sample_no_header.csv&#39;</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> 
 </pre></div>
@@ -822,11 +961,75 @@ Seriesは1次元（列形式）のデータ，DataFrameは2次元（行列形式
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0     29.2
+1     30.1
+2     28.9
+3     31.5
+4     32.3
+5     33.1
+6     31.8
+7     28.5
+8     30.8
+9     32.7
+10    33.5
+11    34.2
+12    29.5
+13    30.2
+Name: 最高気温, dtype: float64
+</pre></div>
 </div>
-<p>同様にして，「客数」の列を取り出してみよう．</p>
+</div>
+</div>
+<p>同様にして，「アイスコーヒー」の列を取り出してみよう．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
+<span class="nn">File ~/envs/develop/lib/python3.9/site-packages/pandas/core/indexes/base.py:3653,</span> in <span class="ni">Index.get_loc</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3652</span> <span class="k">try</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">3653</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">casted_key</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3654</span> <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+
+<span class="nn">File ~/envs/develop/lib/python3.9/site-packages/pandas/_libs/index.pyx:147,</span> in <span class="ni">pandas._libs.index.IndexEngine.get_loc</span><span class="nt">()</span>
+
+<span class="nn">File ~/envs/develop/lib/python3.9/site-packages/pandas/_libs/index.pyx:176,</span> in <span class="ni">pandas._libs.index.IndexEngine.get_loc</span><span class="nt">()</span>
+
+<span class="nn">File pandas/_libs/hashtable_class_helper.pxi:7080,</span> in <span class="ni">pandas._libs.hashtable.PyObjectHashTable.get_item</span><span class="nt">()</span>
+
+<span class="nn">File pandas/_libs/hashtable_class_helper.pxi:7088,</span> in <span class="ni">pandas._libs.hashtable.PyObjectHashTable.get_item</span><span class="nt">()</span>
+
+<span class="ne">KeyError</span>: &#39;客数&#39;
+
+<span class="n">The</span> <span class="n">above</span> <span class="n">exception</span> <span class="n">was</span> <span class="n">the</span> <span class="n">direct</span> <span class="n">cause</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">exception</span><span class="p">:</span>
+
+<span class="ne">KeyError</span><span class="g g-Whitespace">                                  </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">12</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">]</span>
+
+<span class="nn">File ~/envs/develop/lib/python3.9/site-packages/pandas/core/frame.py:3761,</span> in <span class="ni">DataFrame.__getitem__</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3759</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3760</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_getitem_multilevel</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">3761</span> <span class="n">indexer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3762</span> <span class="k">if</span> <span class="n">is_integer</span><span class="p">(</span><span class="n">indexer</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">3763</span>     <span class="n">indexer</span> <span class="o">=</span> <span class="p">[</span><span class="n">indexer</span><span class="p">]</span>
+
+<span class="nn">File ~/envs/develop/lib/python3.9/site-packages/pandas/core/indexes/base.py:3655,</span> in <span class="ni">Index.get_loc</span><span class="nt">(self, key)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3653</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_engine</span><span class="o">.</span><span class="n">get_loc</span><span class="p">(</span><span class="n">casted_key</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">3654</span> <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+<span class="ne">-&gt; </span><span class="mi">3655</span>     <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
+<span class="g g-Whitespace">   </span><span class="mi">3656</span> <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+<span class="g g-Whitespace">   </span><span class="mi">3657</span>     <span class="c1"># If we have a listlike key, _check_indexing_error will raise</span>
+<span class="g g-Whitespace">   </span><span class="mi">3658</span>     <span class="c1">#  InvalidIndexError. Otherwise we fall through and re-raise</span>
+<span class="g g-Whitespace">   </span><span class="mi">3659</span>     <span class="c1">#  the TypeError.</span>
+<span class="g g-Whitespace">   </span><span class="mi">3660</span>     <span class="bp">self</span><span class="o">.</span><span class="n">_check_indexing_error</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+<span class="ne">KeyError</span>: &#39;客数&#39;
 </pre></div>
 </div>
 </div>
@@ -836,10 +1039,10 @@ Seriesは1次元（列形式）のデータ，DataFrameは2次元（行列形式
 </pre></div>
 </div>
 <p>括弧 <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">]</span></code> が二重になっていることに注意すること．</p>
-<p>例えば最高気温と客数の両方を取り出したい場合は，以下のような書き方になる．</p>
+<p>例えば最高気温とアイスコーヒーの両方を取り出したい場合は，以下のような書き方になる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">,</span> <span class="s1">&#39;客数&#39;</span><span class="p">]]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">,</span> <span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">]]</span>
 </pre></div>
 </div>
 </div>
@@ -922,18 +1125,18 @@ Seriesは1次元（列形式）のデータ，DataFrameは2次元（行列形式
 </div>
 </div>
 </div>
-<p>同様に，「客数が400より少ない」行だけを抜き出してみよう．</p>
+<p>同様に，「アイスコーヒーが400個より多く売れた」行だけを抜き出してみよう．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">400</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">400</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>このうち，さらに「客数が400より少ない」行について，「最高気温」だけを抜き出したい場合は，<code class="docutils literal notranslate"><span class="pre">DataFrame[条件式]['列名']</span></code> のように，列名を指定する <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">]</span></code> を後ろにくっ付ければよい．</p>
+<p>このうち，さらに「アイスコーヒーが400個より多く売れた」行について，「最高気温」だけを抜き出したい場合は，<code class="docutils literal notranslate"><span class="pre">DataFrame[条件式]['列名']</span></code> のように，列名を指定する <code class="docutils literal notranslate"><span class="pre">[</span> <span class="pre">]</span></code> を後ろにくっ付ければよい．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">400</span><span class="p">][</span><span class="s1">&#39;最高気温&#39;</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">400</span><span class="p">][</span><span class="s1">&#39;最高気温&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
@@ -948,10 +1151,10 @@ Seriesは1次元（列形式）のデータ，DataFrameは2次元（行列形式
 <li><p>条件分岐のときに用いた <code class="docutils literal notranslate"><span class="pre">and</span></code> と <code class="docutils literal notranslate"><span class="pre">or</span></code> は使えない．DataFrameに対して複数の条件を設定する際は，<code class="docutils literal notranslate"><span class="pre">and</span></code> の代わりに <code class="docutils literal notranslate"><span class="pre">&amp;</span></code>， <code class="docutils literal notranslate"><span class="pre">or</span></code> の代わりに <code class="docutils literal notranslate"><span class="pre">|</span></code> を使う必要がある．</p></li>
 <li><p>各条件は括弧 <code class="docutils literal notranslate"><span class="pre">()</span></code> で囲む必要がある．</p></li>
 </ul>
-<p>例えば，「客数が400より少ない」かつ「最高気温が30度以上」の行だけを抽出したい場合は，以下のように書く．</p>
+<p>例えば，「アイスコーヒーが400個より多く売れた」かつ「最高気温が32度以上」の行だけを抽出したい場合は，以下のように書く．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">400</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">30</span><span class="p">)]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">400</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">32</span><span class="p">)]</span>
 </pre></div>
 </div>
 </div>
@@ -975,11 +1178,11 @@ Seriesは1次元（列形式）のデータ，DataFrameは2次元（行列形式
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DataFrame</span><span class="o">.</span><span class="n">統計量</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>今回はデータ中の最高気温に対して，各種統計量を計算してみる．</p>
+<p>今回はデータ中の「アイスコーヒー」に対して，各種統計量を計算してみる．</p>
 <p><strong>最小値</strong>（<code class="docutils literal notranslate"><span class="pre">min</span></code>）：データに含まれる最も小さい数．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="c1"># 最小値の計算</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="c1"># 最小値の計算</span>
 </pre></div>
 </div>
 </div>
@@ -987,7 +1190,7 @@ Seriesは1次元（列形式）のデータ，DataFrameは2次元（行列形式
 <p><strong>最大値</strong>（<code class="docutils literal notranslate"><span class="pre">max</span></code>）：データに含まれる最も大きい数．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="c1"># 最大値の計算</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="c1"># 最大値の計算</span>
 </pre></div>
 </div>
 </div>
@@ -999,7 +1202,7 @@ Seriesは1次元（列形式）のデータ，DataFrameは2次元（行列形式
 \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="c1"># 平均値の計算</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="c1"># 平均値の計算</span>
 </pre></div>
 </div>
 </div>
@@ -1011,7 +1214,7 @@ s^2 = \frac{1}{N} \sum_{i=1}^N (x_i - \bar{x})^2
 \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">()</span> <span class="c1"># 分散の計算</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">var</span><span class="p">()</span> <span class="c1"># 分散の計算</span>
 </pre></div>
 </div>
 </div>
@@ -1023,12 +1226,12 @@ s = \sqrt{s^2}
 \]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="c1"># 標準偏差の計算</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span> <span class="c1"># 標準偏差の計算</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>以上をまとめると，14日間における最高気温は27度から34度の範囲で変化し，平均値は約30.7度，標準偏差は約2.3度なので，値のばらつきはそこまで大きくないことがわかった．</p>
+<p>以上をまとめると，14日間におけるアイスコーヒーの販売数は265個から468個の範囲で変化し，平均値は約366個，標準偏差は約60個なので，日によってかなりばらつきがあることがわかった．</p>
 <p>なお，上記の例では一つ一つ記述統計量を算出したが，<code class="docutils literal notranslate"><span class="pre">describe()</span></code> メソッドを用いることで，DataFrameの各列に対して複数の要約統計量を一気に計算することもできる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1102,11 +1305,11 @@ s = \sqrt{s^2}
 </div>
 <p>と書くことで，x軸に変数 <code class="docutils literal notranslate"><span class="pre">X</span></code>，y軸に変数 <code class="docutils literal notranslate"><span class="pre">Y</span></code> を取った線グラフを表示することができる．
 このとき，<code class="docutils literal notranslate"><span class="pre">X</span></code> と <code class="docutils literal notranslate"><span class="pre">Y</span></code> にはリストやPandasのSeries，DataFrameなど様々指定できる．</p>
-<p>まずは，「日付」によって「客数」がどう変わるかをグラフ化してみよう．
-x軸に日付，y軸に客数を指定してグラフを描画すればよい．</p>
+<p>まずは，「日付」によって「アイスコーヒー」の販売数がどう変わるかをグラフ化してみよう．
+x軸に日付，y軸にアイスコーヒーの販売数を指定してグラフを描画すればよい．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">]);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">]);</span>
 </pre></div>
 </div>
 </div>
@@ -1116,7 +1319,7 @@ x軸に日付，y軸に客数を指定してグラフを描画すればよい．
 <p>例えば，先ほど作成した線グラフにデータポイントの丸型マーカを加えたい場合，<code class="docutils literal notranslate"><span class="pre">plot</span></code> 関数の引数に <code class="docutils literal notranslate"><span class="pre">marker='o'</span></code> を追加する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -1124,7 +1327,7 @@ x軸に日付，y軸に客数を指定してグラフを描画すればよい．
 <p>引数 <code class="docutils literal notranslate"><span class="pre">marker</span></code> に違う値を指定するとマーカの形状が変わる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -1132,7 +1335,7 @@ x軸に日付，y軸に客数を指定してグラフを描画すればよい．
 <p>他にも，<code class="docutils literal notranslate"><span class="pre">linestyle</span></code> で線の種類を変えたり，<code class="docutils literal notranslate"><span class="pre">color</span></code> で線の色を変更したりできる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;green&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -1147,10 +1350,10 @@ x軸に日付，y軸に客数を指定してグラフを描画すればよい．
 タイトルは <code class="docutils literal notranslate"><span class="pre">title</span></code> 関数，x軸のラベルは <code class="docutils literal notranslate"><span class="pre">xlabel</span></code> 関数，y軸のラベルは <code class="docutils literal notranslate"><span class="pre">ylabel</span></code> 関数に文字列を渡すことで指定可能である．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span> <span class="c1"># グラフを作成</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;日付と客数の関係&#39;</span><span class="p">)</span> <span class="c1"># タイトルを追加</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span> <span class="c1"># グラフを作成</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;日付とアイスコーヒー販売数の関係&#39;</span><span class="p">)</span> <span class="c1"># タイトルを追加</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;日付&#39;</span><span class="p">)</span> <span class="c1"># x軸のラベルを追加</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;客数 (人)&#39;</span><span class="p">);</span> <span class="c1"># y軸のラベルを追加</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;販売数 (個)&#39;</span><span class="p">);</span> <span class="c1"># y軸のラベルを追加</span>
 </pre></div>
 </div>
 </div>
@@ -1165,21 +1368,22 @@ x軸に日付，y軸に客数を指定してグラフを描画すればよい．
 </pre></div>
 </div>
 </div></blockquote>
-<p>同様に，「日付」によって「最高気温」がどう変わるかを線グラフで描画してみよう．</p>
+<p>同様に，「日付」によって「ホットコーヒー」の販売数がどう変わるかを線グラフで描画してみよう．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span> <span class="c1"># グラフを作成</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;日付と最高気温の関係&#39;</span><span class="p">)</span> <span class="c1"># タイトルを追加</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ホットコーヒー&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span> <span class="c1"># グラフを作成</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;日付とホットコーヒー販売数の関係&#39;</span><span class="p">)</span> <span class="c1"># タイトルを追加</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;日付&#39;</span><span class="p">)</span> <span class="c1"># x軸のラベルを追加</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;最高気温（度）&#39;</span><span class="p">);</span> <span class="c1"># y軸のラベルを追加</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;販売数（個）&#39;</span><span class="p">);</span> <span class="c1"># y軸のラベルを追加</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>さて，では「日付と客数」のグラフと，「日付と最高気温」のグラフを交互に見てみましょう．
+<p>さて，では「日付とアイスコーヒー」のグラフと，「日付とホットコーヒー」のグラフを交互に見てみましょう．
 何か気がつくことがないだろうか？</p>
-<p>最高気温が高い日には客数も多く，最高気温が低い日には客数が少ない傾向があるように見える．</p>
-<p>2つの変数の関係を可視化するために，次に <strong>散布図</strong> というグラフで最高気温と客数の関係を見ていこう．</p>
+<p>アイスコーヒーとホットコーヒーで，販売数の変動パターンが逆になっているように見える．
+つまり，アイスコーヒーが多く売れる日はホットコーヒーが少なく，逆にホットコーヒーが多く売れる日はアイスコーヒーが少ない傾向がある．</p>
+<p>これは気温と関係があるかもしれない．2つの変数の関係を可視化するために，次に <strong>散布図</strong> というグラフで気温とコーヒー販売数の関係を見ていこう．</p>
 </section>
 <section id="id14">
 <h3>散布図<a class="headerlink" href="#id14" title="Link to this heading">#</a></h3>
@@ -1194,16 +1398,28 @@ x軸に日付，y軸に客数を指定してグラフを描画すればよい．
 ここでは例として，引数 <code class="docutils literal notranslate"><span class="pre">s</span></code> と <code class="docutils literal notranslate"><span class="pre">alpha</span></code> を用いて，各マーカの大きさと透明度を指定している．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;最高気温と客数の関係&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;最高気温とアイスコーヒー販売数の関係&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;最高気温（度）&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;客数（人）&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;販売数（個）&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>このグラフをみると，最高気温と客数の間には，右肩上がりの関係があるように見える．
-つまり，最高気温が高くなればなるほど，客数は多くなるような関係がありそうだ．</p>
+<p>このグラフをみると，最高気温とアイスコーヒー販売数の間には，右肩上がりの関係があるように見える．
+つまり，最高気温が高くなればなるほど，アイスコーヒーの販売数は多くなるような関係がありそうだ．</p>
+<p>では，ホットコーヒーについても同様に散布図を描いてみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ホットコーヒー&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;最高気温とホットコーヒー販売数の関係&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;最高気温（度）&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;販売数（個）&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>こちらは逆に，最高気温が高くなるほどホットコーヒーの販売数が少なくなる，右肩下がりの関係が見られる．</p>
 <p>この関係については，後ほど詳しく考えてみるとして，その前に他のグラフをいくつか紹介する．</p>
 </section>
 <section id="id15">
@@ -1213,27 +1429,27 @@ x軸に日付，y軸に客数を指定してグラフを描画すればよい．
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>先ほどは線グラフで「日付」ごとの「客数」を可視化したが，同じものを棒グラフで表現してみよう．</p>
+<p>先ほどは線グラフで「日付」ごとの「アイスコーヒー」販売数を可視化したが，同じものを棒グラフで表現してみよう．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;日付と客数の関係&#39;</span><span class="p">)</span> <span class="c1"># タイトルを追加</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;日付とアイスコーヒー販売数の関係&#39;</span><span class="p">)</span> <span class="c1"># タイトルを追加</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;日付&#39;</span><span class="p">)</span> <span class="c1"># x軸のラベルを追加</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;客数 (人)&#39;</span><span class="p">);</span> <span class="c1"># y軸のラベルを追加</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;販売数 (個)&#39;</span><span class="p">);</span> <span class="c1"># y軸のラベルを追加</span>
 </pre></div>
 </div>
 </div>
 </div>
 <blockquote>
 <div><p><strong>💡 線グラフと棒グラフの使い分け</strong></p>
-<p>上記の通り，今回は「日付」と「客数」の関係を，線グラフと棒グラフという2種類の方法で可視化した．
+<p>上記の通り，今回は「日付」と「アイスコーヒー」販売数の関係を，線グラフと棒グラフという2種類の方法で可視化した．
 グラフより，どちらも同じような情報を表しているが，どんな時に使い分ければよいだろうか？</p>
 <p>線グラフの場合は，データ点同士が線で結ばれているため，より日付に応じた変化が強調されているような印象である．
 一方，棒グラフの場合は，ある日付と別の日付との間の値の差がより分かりやすい印象である．
 つまり，線グラフは「変化」が強調されており，棒グラフは「大小の違い」が強調されているわけである．</p>
 <p>このことから，横軸の値が連続したデータ（例：年度ごとの売り上げの推移）に関しては，線グラフの方が分かりやすい場面が多い．
 一方，横軸の値が独立しているデータ（例：広島，岡山，島根の3地域の売り上げ）については，棒グラフの方が適切だろう．</p>
-<p>今回の「日付」と「客数」の場合，横軸は連続した「日付」なので，線グラフの方が適切と思われる．</p>
+<p>今回の「日付」と「アイスコーヒー」販売数の場合，横軸は連続した「日付」なので，線グラフの方が適切と思われる．</p>
 <p>ただし，「絶対にどちらかを使うべし」という厳密なルールは存在しない．
 むしろ，そのグラフから自分がどのような主張を行いたいか，に応じて適切なグラフを使い分けることが大切である．</p>
 </div></blockquote>
@@ -1247,25 +1463,25 @@ x軸に日付，y軸に客数を指定してグラフを描画すればよい．
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>本来，ヒストグラムはデータ量がある程度多くないと描画が難しいが，今回はひとまず「客数」のデータのヒストグラムを表示してみよう．</p>
+<p>本来，ヒストグラムはデータ量がある程度多くないと描画が難しいが，今回はひとまず「アイスコーヒー」販売数のデータのヒストグラムを表示してみよう．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;客数のヒストグラム&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;客数&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;アイスコーヒー販売数のヒストグラム&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;販売数&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;度数&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 </div>
-<p>このグラフより，客数は300人から450人くらいの範囲に主に分布しており，客数が500人を超えることは稀であることがわかる．</p>
+<p>このグラフより，アイスコーヒーの販売数は250個から470個くらいの範囲に主に分布していることがわかる．</p>
 <p>なお，<code class="docutils literal notranslate"><span class="pre">hist</span></code> 関数ではデフォルトの分割数として <code class="docutils literal notranslate"><span class="pre">10</span></code> が設定されているが，ここを手動で設定したい場合は引数 <code class="docutils literal notranslate"><span class="pre">bins</span></code> に分割数を指定すれば良い．
 例えば分割数により大きな <code class="docutils literal notranslate"><span class="pre">15</span></code> を設定すると，ヒストグラムの各棒が細くなり，分布の表現がより細かくなる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;客数のヒストグラム&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;客数&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;アイスコーヒー販売数のヒストグラム&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;販売数&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;度数&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -1275,34 +1491,30 @@ x軸に日付，y軸に客数を指定してグラフを描画すればよい．
 <section id="id17">
 <h3>複数のグラフの重ね合わせ<a class="headerlink" href="#id17" title="Link to this heading">#</a></h3>
 <p>Matplotlibでは，グラフ作成用関数を繰り返し実行することで，各グラフを重ねて表示することが可能である．</p>
-<p>例として，<code class="docutils literal notranslate"><span class="pre">df</span></code> のデータを第1週目（日付1〜7）と第2週目（日付8〜14）に分け，それぞれ対応する曜日と「客数」の線グラフを重ねて描画してみる．</p>
-<p>ここで，日付は月曜始まりとして扱う．つまり，日付1と8は月曜，日付2と9は火曜, …, 日付7と14は日曜となる．</p>
+<p>例として，アイスコーヒーとホットコーヒーの販売数を同じグラフに重ねて描画してみる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_1st_week</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">7</span><span class="p">]</span> <span class="c1"># 第1週目のDataFrameを抽出</span>
-<span class="n">df_2nd_week</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">7</span><span class="p">]</span> <span class="c1"># 第2週目のDataFrameを抽出</span>
-<span class="n">days</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;月&#39;</span><span class="p">,</span> <span class="s1">&#39;火&#39;</span><span class="p">,</span> <span class="s1">&#39;水&#39;</span><span class="p">,</span> <span class="s1">&#39;木&#39;</span><span class="p">,</span> <span class="s1">&#39;金&#39;</span><span class="p">,</span> <span class="s1">&#39;土&#39;</span><span class="p">,</span> <span class="s1">&#39;日&#39;</span><span class="p">]</span> <span class="c1"># 横軸となる曜日のリストを作っておく</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">days</span><span class="p">,</span> <span class="n">df_1st_week</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">])</span> <span class="c1"># 第1週目の線グラフ作成</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">days</span><span class="p">,</span> <span class="n">df_2nd_week</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">])</span> <span class="c1"># 第2週目の線グラフ作成</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;曜日ごとの客数&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;曜日&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;客数（人）&#39;</span><span class="p">);</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ホットコーヒー&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;コーヒー販売数の推移&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;日付&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;販売数（個）&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
 </div>
 </div>
 <p>上記からわかるように，線グラフを重ねたい場合は同じセル内で単純に <code class="docutils literal notranslate"><span class="pre">plt.plot</span></code> を複数実行すればよいことがわかる．
 また，各グラフは自動で色分けされている（もちろん，引数で任意の色を指定することもできる）．</p>
-<p>ただし，上記のグラフだけだと青色と橙色のどちらが1週目と2週目なのか判断がつかない．そのような場合は凡例を表示する必要がある．</p>
+<p>ただし，上記のグラフだけだと青色と橙色のどちらがアイスコーヒーとホットコーヒーなのか判断がつかない．そのような場合は凡例を表示する必要がある．</p>
 <p><code class="docutils literal notranslate"><span class="pre">plot</span></code> 関数の <code class="docutils literal notranslate"><span class="pre">label</span></code> 引数にグラフの各線の凡例として表示したい文字列を指定した上で，<code class="docutils literal notranslate"><span class="pre">legend</span></code> 関数を呼び出すことで，グラフ中に凡例を表示することができる．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">days</span><span class="p">,</span> <span class="n">df_1st_week</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;第1週&#39;</span><span class="p">)</span> <span class="c1"># 第1週目の線グラフ作成</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">days</span><span class="p">,</span> <span class="n">df_2nd_week</span><span class="p">[</span><span class="s1">&#39;客数&#39;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;第2週&#39;</span><span class="p">)</span> <span class="c1"># 第2週目の線グラフ作成</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;曜日ごとの客数&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;曜日&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;客数（人）&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">],</span>  <span class="n">color</span><span class="o">=</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;日付&#39;</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ホットコーヒー&#39;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;ホットコーヒー&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;コーヒー販売数の推移&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;日付&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;販売数（個）&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
 </pre></div>
 </div>
@@ -1312,7 +1524,7 @@ x軸に日付，y軸に客数を指定してグラフを描画すればよい．
 <section id="id18">
 <h3>グラフから読み取れる相関関係<a class="headerlink" href="#id18" title="Link to this heading">#</a></h3>
 <p>さて，話を少し戻そう．
-散布図の説明をした際に，「最高気温」と「客数」の間に，右肩上がりの関係が確認された．</p>
+散布図の説明をした際に，「最高気温」と「アイスコーヒー」の間に右肩上がりの関係が，「最高気温」と「ホットコーヒー」の間に右肩下がりの関係が確認された．</p>
 <p>このように，「x軸の値が大きくなるほど，y軸の値も大きくなる」ような関係性を，<strong>正の相関</strong> という．
 相関とは，「互いに関係がある」という意味である．</p>
 <p>逆に，「x軸の値が大きくなるほど，y軸の値は小さくなる」ことを <strong>負の相関</strong> という．
@@ -1358,19 +1570,19 @@ r = \frac{\sum_{i=1}^N (x_i - \bar{x}) (y_i - \bar{y})}{\sqrt{\sum_{i=1}^N(x_i -
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">DataFrame</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>とすれば計算結果が返ってくる．
-「最高気温」と「客数」の間の相関係数を計算してみよう．</p>
+<p>とすれば計算結果が返ってくる．</p>
+<p>相関係数を計算してみよう．まず，「最高気温」と「アイスコーヒー」の間の相関係数を計算する．</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">,</span> <span class="s1">&#39;客数&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">,</span> <span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 </div>
 <p>ここで返されるのは相関行列というものである．この行列の対角成分は同じ変数間の相関係数なので，「1」となる．
-「最高気温」と「客数」の間の相関係数を確認するためには，非対角成分の部分に着目すれば良い．</p>
-<p>これより，「最高気温」と「客数」の間の相関係数は約0.698であることがわかった．
-さきほどの目安と照らし合わせると，中程度〜強い正の相関関係があるといえる．</p>
+「最高気温」と「アイスコーヒー」の間の相関係数を確認するためには，非対角成分の部分に着目すれば良い．</p>
+<p>これより，「最高気温」と「アイスコーヒー」の間の相関係数は約0.98であることがわかった．
+これは非常に強い正の相関関係を示している．</p>
 <blockquote>
 <div><p><strong>❗ 注意</strong></p>
 <p>上記の相関行列において，非対角成分は2つあるが，どちらを見ればよいだろうか．
@@ -1379,16 +1591,42 @@ r = \frac{\sum_{i=1}^N (x_i - \bar{x}) (y_i - \bar{y})}{\sqrt{\sum_{i=1}^N(x_i -
 これは，上述の相関係数において <span class="math notranslate nohighlight">\(x\)</span> と <span class="math notranslate nohighlight">\(y\)</span> を入れ替えても本質的な計算は変わらないことからも明らかである．
 つまり，相関行列は相関行列は対称行列の一種である．</p>
 </div></blockquote>
-<p>このように，データから平均値など要約統計量を計算したり，散布図などを描画して可視化してみたり，相関係数を計算したりすることで，データの中の性質や関係性を理解したり分析したりすることができる．
-今回紹介したPandasやMatplotlibのように，Pythonにはこのようなデータ分析を実現するための様々なモジュール・ライブラリが揃っているため，それらを駆使することで幅広い応用に展開可能である．</p>
+<p>次に，「最高気温」と「ホットコーヒー」の間の相関係数を計算してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">,</span> <span class="s1">&#39;ホットコーヒー&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>最高気温」と「ホットコーヒー」の間の相関係数は約-0.98となった．
+負の値であることから負の相関を示しており，その絶対値が1に近いことから非常に強い負の相関関係があることがわかる．</p>
+<p>最後に，全ての変数間の相関関係を一度に確認してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">[[</span><span class="s1">&#39;最高気温&#39;</span><span class="p">,</span> <span class="s1">&#39;アイスコーヒー&#39;</span><span class="p">,</span> <span class="s1">&#39;ホットコーヒー&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>この相関行列から，以下のことがわかる：</p>
+<ul class="simple">
+<li><p>最高気温とアイスコーヒー：強い正の相関（0.98）</p></li>
+<li><p>最高気温とホットコーヒー：強い負の相関（-0.98）</p></li>
+<li><p>アイスコーヒーとホットコーヒー：強い負の相関（-0.97）</p></li>
+</ul>
+<p>今回の分析から，コンビニでのコーヒー販売において，気温が消費者の商品選択に大きな影響を与えていることが明らかになった．このような知見は，在庫管理や販売戦略の立案に活用できるだろう．</p>
+<p>このように，データから平均値など要約統計量を計算したり，散布図などを描画して可視化してみたり，相関係数を計算したりすることで，データの中の性質や関係性を理解したり分析したりすることができる．</p>
+<p>今回紹介したPandasやMatplotlibのように，Pythonにはこのようなデータ分析を実現するための様々なモジュール・ライブラリが揃っているため，それらを駆使することで幅広い応用に展開可能である．</p>
 <blockquote>
 <div><p><strong>💡 【補足】相関関係と因果関係</strong></p>
-<p>相関係数は，あくまで2つの変数の間の関係性の強さを示す指標に過ぎない
-今回の分析で「最高気温」と「客数」の間に正の相関があることは分かった．
-これは，「最高気温が高いとき，アイスクリーム屋の客数も多い」ことを意味している．</p>
-<p>しかし，この結果から「最高気温が高いことが <strong>原因</strong> で，<strong>結果</strong> としてアイスクリーム屋の客数が増えた」と結論付けることはできないことに注意すること（なぜなら，もしかしたら他にも関係する変数が存在するかもしれないからである）．
-因果関係があるかどうかを示すためには，より複雑な別の分析を行う必要がある．</p>
+<p>相関係数は，あくまで2つの変数の間の関係性の強さを示す指標に過ぎない．
+今回の分析で「最高気温」と「アイスコーヒー」の間に強い正の相関が，「最高気温」と「ホットコーヒー」の間に強い負の相関があることがわかった．
+これは，「最高気温が高いとアイスコーヒーが多く売れ，ホットコーヒーの売り上げは少なくなる」という傾向を示している（ある意味当然であるが）．</p>
+<p>しかし，この結果から「最高気温が高いことが <strong>原因</strong> で，<strong>結果</strong> として「アイスコーヒーが多く売れ，ホットコーヒーは少なくなる」と明確に結論づけることはできない．実際には，店舗側の販売戦略や消費者の嗜好など，様々な要因が影響している可能性がある．</p>
+<p>因果関係があるかどうかを示すためには，より複雑な別の分析を行う必要がある．</p>
 </div></blockquote>
+<p>このように，データから平均値など要約統計量を計算したり，散布図などを描画して可視化してみたり，相関係数を計算したりすることで，データの中の性質や関係性を理解したり分析したりすることができる．</p>
 <blockquote>
 <div><p><strong>💡 Matplotlibによるデータの可視化のまとめ</strong></p>
 <ul class="simple">
